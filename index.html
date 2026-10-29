@@ -1931,7 +1931,7 @@ async function askAI(){
    renderChat();
  }catch(err){
    const local=localTutor(q);
-   chat.push({role:'assistant',content:local.replace(/<[^>]*>/g,''),html:local});
+   chat.push({role:'assistant',content:local.replace(/<[^>]*>/g,''),html:'<p><strong>Modo local (IA não conectada)</strong></p>'+local});
    localStorage.setItem('audiChat',JSON.stringify(chat));
    renderChat();
  }
@@ -1946,12 +1946,12 @@ function formatAI(text){
  return esc(text).replace(/\n/g,'<br>');
 }
 function localTutor(q){
+ const raw=q.trim();
+ const s=raw.toLowerCase();
  if(/meu cerebro|meu desempenho|meus erros|meu progresso|pontos fortes|pontos fracos/.test(s)){
    const p=getProfile(), weak=weakTopics().slice(0,3);
    return `<p><b>Seu perfil de aprendizagem:</b></p><p>Os assuntos que mais precisam de atenção no momento são: <b>${esc(weak.join(', ')||'ainda não há dados suficientes')}</b>.</p><p>A Audi usa esses dados para priorizar seus próximos exercícios.</p>`;
  }
- const raw=q.trim();
- const s=raw.toLowerCase();
 
  // Translation requests: detect "traduza/translate" and translate the
  // sentence instead of incorrectly answering it as a grammar question.
